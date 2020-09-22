@@ -11,23 +11,9 @@ const config = configJson[env];
 const db = {};
 
 let sequelize;
-// if (!process.env.DATABASE_URL && config.environment === 'production') {
-//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
-//   sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     dialect: 'postgres',
-//     dialectOption: {
-//       ssl: true,
-//       native: true,
-//     },
-//     logging: true,
-//   });
-// }
+
+// Production is heroku configs
 if (env === 'production') {
-  console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
-  console.log('config.environment', config.environment);
-  // sequelize = new Sequelize(process.env.DATABASE_URL);
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialectOptions: {
       ssl: {
@@ -38,18 +24,6 @@ if (env === 'production') {
     logging: true,
   });
 } else {
-  // sequelize = new Sequelize(
-  //   'postgres://xputrhgoesdwye:3363291ce4b1c2330fcc171f6eba36fe8d49a1777620cbfa462965797d57d865@ec2-34-235-62-201.compute-1.amazonaws.com:5432/d2kcuqb8991rnm',
-  //   {
-  //     dialectOptions: {
-  //       ssl: {
-  //         require: true,
-  //         rejectUnauthorized: false,
-  //       },
-  //     },
-  //     logging: true,
-  //   },
-  // );
   sequelize = new Sequelize(config.database, config.username, config.password, {
     host: process.env.DATABASE_URL,
     port: process.env.DB_PORT,
@@ -58,12 +32,12 @@ if (env === 'production') {
     logging: false,
   });
 }
+
 fs.readdirSync(__dirname)
   .filter(file => {
     return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
   })
   .forEach(file => {
-    // const model = sequelize.import(path.join(__dirname, file));
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });

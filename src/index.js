@@ -41,10 +41,6 @@ const auth = async () => {
 };
 
 app.listen(PORT, () => {
-  console.log('process.env.DATABASE_URL', process.env.DATABASE_URL);
-  console.log('config', config);
-  console.log('env', env);
-  console.log('env', env === 'production');
   console.log(`Hello world app listening on port ${PORT}, on ${ENV} env`);
   auth();
 });
