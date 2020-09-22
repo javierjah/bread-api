@@ -18,17 +18,24 @@ if (config.environment === 'production') {
     port: process.env.DB_PORT,
     dialect: 'postgres',
     dialectOption: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-      keepAlive: true,
+      ssl: true,
       native: true,
     },
     logging: true,
   });
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: process.env.DATABASE_URL,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
+      },
+    },
+    logging: false,
+  });
 }
 
 fs.readdirSync(__dirname)
