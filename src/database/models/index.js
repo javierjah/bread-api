@@ -10,9 +10,6 @@ const config = configJson[env];
 
 const db = {};
 
-console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
-console.log('config.environment', config.environment);
-
 let sequelize;
 if (config.environment === 'production') {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -31,12 +28,7 @@ if (config.environment === 'production') {
     host: process.env.DATABASE_URL,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
-      },
-    },
+    dialectOptions: {},
     logging: false,
   });
 }
@@ -55,7 +47,6 @@ if (process.env.DATABASE_URL && config.environment === 'production') {
     logging: true,
   });
 }
-
 fs.readdirSync(__dirname)
   .filter(file => {
     return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
