@@ -5,9 +5,10 @@ import cors from 'cors';
 
 import db from './database/models';
 import routes from './database/routes';
-
 import configJson from './database/config/config';
+import emailSender from './nodeEmailSender';
 
+//env config vars
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 const config = configJson[env];
 
