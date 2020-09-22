@@ -3,8 +3,8 @@ import 'regenerator-runtime/runtime.js';
 import express from 'express';
 import cors from 'cors';
 
-import routes from './database/routes';
 import db from './database/models';
+import routes from './database/routes';
 
 import configJson from './database/config/config';
 
@@ -19,10 +19,12 @@ const API_VERSION = process.env.API_VERSION || '/api/v1';
 // express setup
 const app = express();
 
+// express configs
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// app routes setup
 app.use(`${API_VERSION}/breads`, routes.bread);
 
 // Middleware test
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// testing database connection
 const auth = async () => {
   try {
     await db.sequelize.authenticate();
