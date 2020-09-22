@@ -10,6 +10,9 @@ const config = configJson[env];
 
 const db = {};
 
+console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
+console.log('config.environment', config.environment);
+
 let sequelize;
 if (config.environment === 'production') {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -42,6 +45,15 @@ if (process.env.DATABASE_URL && config.environment === 'production') {
   console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
   console.log('config.environment', config.environment);
   sequelize = new Sequelize(process.env.DATABASE_URL);
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    logging: true,
+  });
 }
 
 fs.readdirSync(__dirname)
