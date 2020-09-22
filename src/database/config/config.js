@@ -9,7 +9,7 @@ module.exports = {
     dialect: 'postgres',
   },
 
-  test: {
+  staging: {
     username: 'root',
     password: null,
     database: 'root',
