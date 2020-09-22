@@ -24,7 +24,7 @@ let sequelize;
 //     logging: true,
 //   });
 // }
-if (config.environment === 'production') {
+if (env === 'production') {
   console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
   console.log('config.environment', config.environment);
   // sequelize = new Sequelize(process.env.DATABASE_URL);
