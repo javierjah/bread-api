@@ -14,7 +14,7 @@ let sequelize;
 if (config.environment === 'production') {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
   sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.DATABASE_URL,
+    host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
     dialectOption: {
@@ -36,6 +36,10 @@ if (config.environment === 'production') {
     },
     logging: false,
   });
+}
+
+if (process.env.DATABASE_URL && config.environment === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL);
 }
 
 fs.readdirSync(__dirname)
