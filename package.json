@@ -2,13 +2,21 @@
   "name": "simple-node-express",
   "version": "1.0.0",
   "description": "simple express server",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "javier palacios",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon --exec babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./src -s",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/index.js"
+  },
+  "engines": {
+    "node": "12.16.1",
+    "yarn": "1.22.4"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -20,9 +28,9 @@
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.5",
+    "babel": "6.23.0",
+    "babel-cli": "6.26.0",
+    "babel-preset-env": "1.6.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -30,6 +38,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
+    "regenerator-runtime": "^0.13.7",
     "sequelize-cli": "^6.2.0"
   }
 }

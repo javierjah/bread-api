@@ -1,14 +1,20 @@
 import 'dotenv/config';
+import 'regenerator-runtime/runtime.js';
 import express from 'express';
 import cors from 'cors';
 
 import routes from './database/routes';
 import db from './database/models';
 
+import configJson from './database/config/config';
+
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+const config = configJson[env];
+
 // CONSTANTS
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.ENV || 'NO_SECRET_KEY';
-const API_VERSION = '/api/v1';
+const API_VERSION = process.env.API_VERSION || '/api/v1';
 
 // express setup
 const app = express();
