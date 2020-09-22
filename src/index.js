@@ -6,6 +6,11 @@ import cors from 'cors';
 import routes from './database/routes';
 import db from './database/models';
 
+import configJson from './database/config/config';
+
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+const config = configJson[env];
+
 // CONSTANTS
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.ENV || 'NO_SECRET_KEY';
@@ -36,7 +41,8 @@ const auth = async () => {
 };
 
 app.listen(PORT, () => {
-  console.log('process.env.DATABASE_URL SOSOSOOSOSOSI', process.env.DATABASE_URL);
+  console.log('process.env.DATABASE_URL', process.env.DATABASE_URL);
+  console.log('config', config);
   console.log(`Hello world app listening on port ${PORT}, on ${ENV} env`);
   auth();
 });
