@@ -1,5 +1,3 @@
-'use strict';
-
 const imageUrl =
   'https://www.recipetineats.com/wp-content/uploads/2020/05/No-Yeast-Sandwhich-Bread_9-1.jpg';
 
@@ -43,11 +41,11 @@ const breads = [
 ];
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     await queryInterface.bulkInsert('Bread', breads, {});
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.bulkDelete('Bread', null, {});
   },
 };

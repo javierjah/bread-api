@@ -5,6 +5,7 @@ class BreadService {
     try {
       return await db.Bread.findAll();
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
@@ -13,6 +14,7 @@ class BreadService {
     try {
       return await db.Bread.create(newBread);
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
@@ -30,6 +32,7 @@ class BreadService {
       }
       return null;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
@@ -42,6 +45,7 @@ class BreadService {
 
       return theBread;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
@@ -58,6 +62,7 @@ class BreadService {
       }
       return null;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
