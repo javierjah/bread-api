@@ -38,7 +38,7 @@ class BreadController {
   static async updatedBread(req, res) {
     const alteredBread = req.body;
     const { id } = req.params;
-    if (!Number(id)) {
+    if (!id) {
       RR.setError(400, 'Please input a valid numeric value');
       return RR.send(res);
     }
@@ -59,7 +59,7 @@ class BreadController {
   static async getABread(req, res) {
     const { id } = req.params;
 
-    if (!Number(id)) {
+    if (!id) {
       RR.setError(400, 'Please input a valid numeric value');
       return RR.send(res);
     }
@@ -82,7 +82,7 @@ class BreadController {
   static async deleteBread(req, res) {
     const { id } = req.params;
 
-    if (!Number(id)) {
+    if (!id) {
       RR.setError(400, 'Please provide a numeric value');
       return RR.send(res);
     }

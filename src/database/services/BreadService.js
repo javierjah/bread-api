@@ -22,11 +22,11 @@ class BreadService {
   static async updateBread(id, updateBread) {
     try {
       const breadToUpdate = await db.Bread.findOne({
-        where: { id: Number(id) },
+        where: { id },
       });
 
       if (breadToUpdate) {
-        await db.Bread.update(updateBread, { where: { id: Number(id) } });
+        await db.Bread.update(updateBread, { where: { id } });
 
         return updateBread;
       }
@@ -40,7 +40,7 @@ class BreadService {
   static async getABread(id) {
     try {
       const theBread = await db.Bread.findOne({
-        where: { id: Number(id) },
+        where: { id },
       });
 
       return theBread;
@@ -52,11 +52,11 @@ class BreadService {
 
   static async deleteBread(id) {
     try {
-      const breadToDelete = await db.Bread.findOne({ where: { id: Number(id) } });
+      const breadToDelete = await db.Bread.findOne({ where: { id } });
 
       if (breadToDelete) {
         const deletedBread = await db.Bread.destroy({
-          where: { id: Number(id) },
+          where: { id },
         });
         return deletedBread;
       }
