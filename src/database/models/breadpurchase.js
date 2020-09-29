@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   BreadPurchase.init(
     {
-      PurchaseId: DataTypes.INTEGER,
-      BreadId: DataTypes.INTEGER,
+      PurchaseId: DataTypes.UUID,
+      BreadId: DataTypes.UUID,
       quantity: DataTypes.INTEGER,
     },
     {
