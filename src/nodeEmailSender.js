@@ -30,7 +30,7 @@ function emailSender(emailTo = EMAILS, subject = defaultSubject, text = defaultT
     html: `<h1>${text}</h1><p><b>Muchas gracias, por tu pedido se esta realizando</b> <br><br></p><img width="800" height="600" src="${IMAGE_URL}"/>`,
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     } else {

@@ -1,32 +1,36 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-    await queryInterface.createTable('Bread', {
+    await queryInterface.createTable('Purchases', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      price: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       description: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      type: {
+      amount: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      image: {
+      deliveryDate: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      clientName: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +43,6 @@ module.exports = {
     });
   },
   down: async queryInterface => {
-    await queryInterface.dropTable('Bread');
+    await queryInterface.dropTable('Purchases');
   },
 };
