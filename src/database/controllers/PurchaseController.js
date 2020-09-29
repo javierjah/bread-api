@@ -20,7 +20,6 @@ class PurchaseController {
   }
 
   static async addPurchase(req, res) {
-    console.log('req.body', req.body);
     if (
       !req.body.amount ||
       !req.body.description ||
