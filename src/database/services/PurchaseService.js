@@ -60,7 +60,7 @@ class PurchaseService {
         const product = await db.Bread.findByPk(item.id);
 
         if (!product) {
-          return Error('Bread Not found: ', product);
+          throw Error('Bread Not found: ', product);
         }
 
         const breadPurchase = {
@@ -69,8 +69,8 @@ class PurchaseService {
           quantity: item.quantity,
         };
 
-        const some = await db.BreadPurchase.create(breadPurchase);
-        return some;
+        const breadPurchaseCreated = await db.BreadPurchase.create(breadPurchase);
+        return breadPurchaseCreated;
       });
 
       return purchase;
