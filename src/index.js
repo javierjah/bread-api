@@ -1,29 +1,31 @@
 import 'dotenv/config';
-import 'regenerator-runtime/runtime.js';
+import 'regenerator-runtime/runtime';
 import express from 'express';
 import cors from 'cors';
 
-import routes from './database/routes';
 import db from './database/models';
+import routes from './database/routes';
 
-import configJson from './database/config/config';
+// import emailSender from './nodeEmailSender';
 
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-const config = configJson[env];
+// env config vars
+const ENV = process.env.ENV || 'development';
 
 // CONSTANTS
 const PORT = process.env.PORT || 3000;
-const ENV = process.env.ENV || 'NO_SECRET_KEY';
 const API_VERSION = process.env.API_VERSION || '/api/v1';
 
 // express setup
 const app = express();
 
+// express configs
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// app routes setup
 app.use(`${API_VERSION}/breads`, routes.bread);
+app.use(`${API_VERSION}/purchases`, routes.purchase);
 
 // Middleware test
 app.use((req, res, next) => {
@@ -31,10 +33,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// testing database connection
 const auth = async () => {
   try {
     await db.sequelize.authenticate();
     console.log('Connection has been established successfully.');
+    // await db.sequelize.sync();
+    // console.log('DB Sync.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
