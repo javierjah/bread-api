@@ -31,6 +31,7 @@ function emailSender({ emailTo = EMAILS, subject = defaultSubject, emailParams }
       emailParams,
     )
     .then(async htmlTemplate => {
+      // email config vars
       const EMAIL = process.env.EMAIL;
       const EMAIL_PASS = process.env.EMAIL_PASS;
       const OAUTH2_CLIENT_ID = process.env.OAUTH2_CLIENT_ID;
@@ -38,15 +39,16 @@ function emailSender({ emailTo = EMAILS, subject = defaultSubject, emailParams }
       const OAUTH2_REFRESH_TOKEN = process.env.OAUTH2_REFRESH_TOKEN;
       const OAUTH2_ACCESS_TOKEN = process.env.OAUTH2_ACCESS_TOKEN;
 
-      // const transporter = nodemailer.createTransport({
-      //   service: 'gmail',
-      //   auth: {
-      //     user: EMAIL,
-      //     pass: EMAIL_PASS,
-      //   },
-      // });
+      // nodemailer transport config
+      const transportConfigDev = {
+        service: 'gmail',
+        auth: {
+          user: EMAIL,
+          pass: EMAIL_PASS,
+        },
+      };
 
-      const transporter = nodemailer.createTransport({
+      const transportconfigProd = {
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
@@ -55,22 +57,29 @@ function emailSender({ emailTo = EMAILS, subject = defaultSubject, emailParams }
           clientId: OAUTH2_CLIENT_ID,
           clientSecret: OAUTH2_CLIENT_SECRET,
         },
-      });
+      };
 
-      // Render a single email with one template
+      let transporterConfig = transportConfigDev;
+
+      if (process.env.NODE_ENV === 'production') {
+        transporterConfig = transportconfigProd;
+      }
+
+      const transporter = nodemailer.createTransport(transporterConfig);
+
       const mailOptions = {
-        // Comma separated list of recipients
         to: emailTo,
-        // Subject of the message
         subject,
-        // HTML body
         html: htmlTemplate,
-        auth: {
-          user: EMAIL,
-          refreshToken: OAUTH2_REFRESH_TOKEN,
-          accessToken: OAUTH2_ACCESS_TOKEN,
-          expires: 3599,
-        },
+        auth:
+          process.env.NODE_ENV === 'production'
+            ? {
+                user: EMAIL,
+                refreshToken: OAUTH2_REFRESH_TOKEN,
+                accessToken: OAUTH2_ACCESS_TOKEN,
+                expires: 3599,
+              }
+            : undefined,
       };
 
       transporter.sendMail(mailOptions, (emailError, info) => {

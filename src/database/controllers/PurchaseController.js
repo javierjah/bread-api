@@ -30,9 +30,23 @@ class PurchaseController {
       !req.body.address ||
       !req.body.phone ||
       !req.body.products ||
-      !req.body.products.length === 0
+      !req.body.products.length === 0 ||
+      !req.body.paymentType ||
+      !req.body.deliveryCost === undefined
     ) {
-      RR.setError(400, 'Please provide complete details');
+      RR.setError(400, 'Please provide complete purchase details details');
+      return RR.send(res);
+    }
+
+    let productValidated = true;
+    req.body.products.forEach(product => {
+      if (!product.id || !product.quantity || !product.name || !product.totalAmount) {
+        productValidated = false;
+      }
+    });
+
+    if (!productValidated) {
+      RR.setError(400, 'Please provide complete products details');
       return RR.send(res);
     }
 
@@ -62,7 +76,6 @@ class PurchaseController {
         address,
         products,
       };
-
       emailSender({ emailParams });
       RR.setSuccess(201, 'Purchase Added!', createdPurchase);
       return RR.send(res);
