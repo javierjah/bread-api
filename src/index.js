@@ -6,8 +6,6 @@ import cors from 'cors';
 import db from './database/models';
 import routes from './database/routes';
 
-// import emailSender from './nodeEmailSender';
-
 // env config vars
 const ENV = process.env.ENV || 'development';
 

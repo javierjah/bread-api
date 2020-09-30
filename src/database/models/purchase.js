@@ -16,11 +16,13 @@ module.exports = (sequelize, DataTypes) => {
   Purchase.init(
     {
       description: DataTypes.STRING,
-      amount: DataTypes.STRING,
+      amount: DataTypes.INTEGER,
       deliveryDate: DataTypes.DATE,
       clientName: DataTypes.STRING,
       address: DataTypes.STRING,
       phone: DataTypes.STRING,
+      paymentType: DataTypes.STRING,
+      deliveryCost: DataTypes.INTEGER,
     },
     {
       sequelize,

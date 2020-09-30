@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="style.css" data-inline="data-inline" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+  rel="stylesheet"
+/>
+
+<div class="email-container">
+  <div class="email-wrapper">
+    <div class="header-container">
+      <a href="google.com" class="link header-link">
+        <img
+          src="https://cdn.iconscout.com/icon/free/png-256/loaf-bread-1508808-1275257.png"
+          height="50"
+          border="0"
+        />
+        <div class="header-text">Agua y harina</div>
+      </a>
+    </div>
+    <div class="emai-body">
+      <h1 class="title">
+        <div>Hola <%= userName %>,</div>
+        <div>Gracias por tu compra</div>
+      </h1>
+      <p>
+        Hemos recibido tu orden y en este momento se esta despachando a tu domicilio. Tu numero de
+        orden es: <b><%= orderNumber %></b>. Si tienes alguna pregunta o comentario acerca de tu
+        orden, puedes llamarnos al <b><%= phonNumber %></b>.
+      </p>
+      <p>
+        Para contacto menos urgente ve a nuetro sitio web:
+        <a href="google.com" class="link page-link">aguayarina.cl</a>
+      </p>
+      <br />
+      <div class="divider"></div>
+      <br />
+      <div class="logo-img">
+        <img
+          src="https://cdn.iconscout.com/icon/free/png-256/loaf-bread-1508808-1275257.png"
+          height="50"
+          border="0"
+          class="img"
+        />
+      </div>
+      <div class="purchase-list">
+        <div class="purchase-title">Tus Productos</div>
+        <% for (var i = 0; i < products.length; i++) { %>
+        <div class="list-item">
+          <p class="list-item-quantity"><%= products[i].quantity %></p>
+          <p class="list-item-name"><%= products[i].name %></p>
+          <p class="list-item-total-amount">$ <%= products[i].totalAmount %></p>
+        </div>
+        <% } %>
+        <br />
+        <div class="divider"></div>
+        <br />
+        <div class="info-item">
+          <div class="info-text">Costos de despacho</div>
+          <div class="info-value">$ <%= deliveryCost %></div>
+        </div>
+        <br />
+        <div class="divider"></div>
+        <br />
+        <div class="info-item">
+          <div class="info-text"><b>Total</b></div>
+          <div class="info-value"><b>$ <%= totalAmount %></b></div>
+        </div>
+        <br />
+        <div class="divider"></div>
+        <br />
+        <div class="info-item">
+          <div class="info-text">Medio de pago</div>
+          <div class="info-value"><%= paymentType %></div>
+        </div>
+        <br />
+        <div class="divider"></div>
+        <br />
+        <div class="info-item">
+          <div class="info-text">Numero de orden </div>
+            <div class="info-value"><%= orderNumber %></div>
+          </div>
+          <br />
+          <div class="divider"></div>
+          <br />
+        </div>
+        <div class="order-details">
+          <div class="order-title">Informacion del pedido</div>
+          <br />
+          <div class="divider"></div>
+          <br />
+          <div class="order-details-container">
+            <div class="order-subtitle">
+              <b>Detalle</b>
+            </div>
+            <div class="order-detail">
+              <%= userName %>
+            </div>
+            <div class="order-detail">
+              <%= address %>
+            </div>
+            <div class="order-detail">
+              <%= phonNumber %>
+            </div>
+          </div>
+          <div class="order-details-container">
+            <div class="order-subtitle">
+              <b>Hora de entrega</b>
+            </div>
+            <div class="order-detail">
+              Lo antes posible
+            </div>
+          </div>
+          <div class="order-details-container">
+            <div class="order-subtitle">
+              <b>Observaciones</b>
+            </div>
+            <div class="order-detail">
+              Entrega sin contacto: Una vez confirmado el despacho se dejara frente a la puerta hasta la 
+              espera de que sea recibido
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
