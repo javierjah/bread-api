@@ -7,7 +7,7 @@ import db from './database/models';
 import routes from './database/routes';
 
 // env config vars
-const ENV = process.env.ENV || 'development';
+const ENV = process.env.NODE_ENV || 'development';
 
 // CONSTANTS
 const PORT = process.env.PORT || 3000;
