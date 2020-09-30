@@ -1,5 +1,7 @@
 import PurchaseService from '../services/PurchaseService';
 import RestResponses from '../utils/RestResponses';
+import emailSender from '../../email-sender/nodeEmailSender';
+import formatNumber from '../utils/numbers';
 
 const RR = new RestResponses();
 
@@ -37,6 +39,31 @@ class PurchaseController {
     const newPurchase = req.body;
     try {
       const createdPurchase = await PurchaseService.addPurchase(newPurchase);
+      const {
+        clientName,
+        phone,
+        deliveryDate,
+        address,
+        products,
+        amount,
+        paymentType,
+        deliveryCost,
+      } = newPurchase;
+      const orderNumber = createdPurchase.id;
+
+      const emailParams = {
+        userName: clientName,
+        orderNumber,
+        phonNumber: phone,
+        totalAmount: formatNumber(amount),
+        paymentType,
+        deliveryCost,
+        deliveryDate,
+        address,
+        products,
+      };
+
+      emailSender({ emailParams });
       RR.setSuccess(201, 'Purchase Added!', createdPurchase);
       return RR.send(res);
     } catch (error) {

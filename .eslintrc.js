@@ -47,5 +47,6 @@ module.exports = {
     quotes: ['error', 'single', { avoidEscape: true }],
     'no-console': 'off',
     'prefer-template': 'off',
+    'no-else-return': 'off',
   },
 };
