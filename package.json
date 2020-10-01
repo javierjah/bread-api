@@ -12,7 +12,8 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s --copy-files",
     "build": "yarn clean && yarn build-babel",
-    "start": "yarn build && node ./build/index.js"
+    "start": "yarn build && node ./build/index.js",
+    "pm2": "pm2 start processes.json --no-daemon"
   },
   "engines": {
     "node": "12.16.1",
@@ -28,6 +29,7 @@
     "nodemailer": "^6.4.11",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
+    "pm2": "^4.5.0",
     "pug": "^3.0.0",
     "regenerator-runtime": "^0.13.7",
     "sequelize": "^6.3.5"
