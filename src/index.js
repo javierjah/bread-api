@@ -25,10 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(`${API_VERSION}/breads`, routes.bread);
 app.use(`${API_VERSION}/purchases`, routes.purchase);
 
-// Middleware test
-app.use((req, res, next) => {
-  req.me = ENV;
-  next();
+app.get('/healthz', (req, res) => {
+  // do app logic here to determine if app is truly healthy
+  // you should return 200 if healthy, and anything else will fail
+  // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
+  return res.status(200).send('I am happy and healthy\n');
 });
 
 // testing database connection
@@ -44,6 +45,6 @@ const auth = async () => {
 };
 
 app.listen(PORT, () => {
-  console.log(`Hello world app listening on port ${PORT}, on ${ENV} env`);
+  console.log(`breads-api listening on port ${PORT}, on ${ENV} env`);
   auth();
 });

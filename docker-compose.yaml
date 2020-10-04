@@ -1,0 +1,46 @@
+# docker-compose.yml
+version: '3'
+services:
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_NAME: root
+      DB_PASS: root
+      DB_USER: root
+      DB_HOST: postgres
+      DB_PORT: 5432
+      API_VERSION: /api/v1
+      EMAIL: javier.palacios.h@gmail.com
+      EMAIL_PASS: Jp1919jah-1991jah
+      OAUTH2_CLIENT_ID: 586984898891-dpl77iqg1182uhcpn3mm4h3i7fkq8l6e.apps.googleusercontent.com
+      OAUTH2_CLIENT_SECRET: 1QHD37lvL5wcF0nxXMPsj7Wg
+      OAUTH2_REFRESH_TOKEN: 1//04CGDAXwEDVN9CgYIARAAGAQSNwF-L9IroibVtaATYIO9FZGE5MJGkQ2_2hgMQpMJw_0gntL0mvH1IP8Mg8sQ_UG5vVZJFaXl6MQ
+      OAUTH2_ACCESS_TOKEN: ya29.a0AfH6SMBxr8ck-OqeKm6l4ZS4CiBWV_l7CX8ePyKCRDTZuTNQloL33lvs-2jF14UqB3rTAw-x5WWsc7jViMFqUl7RZB6Z2icMxFliX3Es8_OTh3T77cpGleqxSz2kY8VNq5YJZMMHgbREl6bk4715v9h5BkW9th_UBFQ
+      DATABASE_URL: postgres://xputrhgoesdwye:3363291ce4b1c2330fcc171f6eba36fe8d49a1777620cbfa462965797d57d865@ec2-34-235-62-201.compute-1.amazonaws.com:5432/d2kcuqb8991rnm
+    ports:
+      - '3000:3000'
+      - '9229:9229'
+      - '9230:9230'
+    command: bash -c "npx sequelize-cli db:migrate && yarn start:dev"
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  postgres:
+    image: postgres:10.4
+    ports:
+      - '35432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: root
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5

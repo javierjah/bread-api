@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "breads-api",
-      "script": "nodemon --exec babel-node src/index.js",
+      "script": "NODE_ENV=production nodemon --exec babel-node src/index.js",
       "merge_logs": true,
       "max_restarts": 20,
       "instances": 4,

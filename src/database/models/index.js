@@ -27,7 +27,7 @@ if (env === 'production') {
   });
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: process.env.DATABASE_URL,
+    host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
     dialectOptions: {},

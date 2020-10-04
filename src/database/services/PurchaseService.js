@@ -1,4 +1,5 @@
 import db from '../models';
+import formatNumber from '../utils/numbers';
 
 class PurchaseService {
   static async getAllPurchases() {
@@ -32,7 +33,7 @@ class PurchaseService {
           return {
             id,
             title,
-            price,
+            price: formatNumber(price),
             description,
             image,
             type,
@@ -40,7 +41,10 @@ class PurchaseService {
           };
         });
 
-        return purchaseData;
+        return Object.assign(purchaseData, {
+          amount: formatNumber(purchaseData.amount),
+          deliveryCost: formatNumber(purchaseData.deliveryCost),
+        });
       });
 
       return allPurchasesParsed;
