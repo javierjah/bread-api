@@ -57,30 +57,56 @@ class PurchaseService {
   static async addPurchase(newPurchase) {
     const { products } = newPurchase;
 
-    try {
-      const purchase = await db.Purchase.create(newPurchase);
+    async function addProductPurchase(items, purchase) {
+      let breadPurchase;
+      items.forEach(async item => {
+        try {
+          const product = await db.Bread.findByPk(item.id);
 
-      products.forEach(async item => {
+          if (!product) {
+            throw Error(`Bread product ID not found: ${item.id}`);
+          } else {
+            breadPurchase = {
+              PurchaseId: purchase.id,
+              BreadId: item.id,
+              quantity: item.quantity,
+            };
+          }
+
+          return await db.BreadPurchase.create(breadPurchase);
+        } catch (e) {
+          console.error(e);
+          return e;
+        }
+      });
+    }
+
+    try {
+      const dbProducts = [];
+
+      // validating products
+      for (let i = 0; i < products.length; i++) {
+        const item = products[i];
         const product = await db.Bread.findByPk(item.id);
 
-        if (!product) {
-          throw Error('Bread Not found: ', product);
+        if (product) {
+          dbProducts.push(product);
+        } else {
+          throw Error(`Bread product ID not found: ${item.id}`);
         }
+      }
 
-        const breadPurchase = {
-          PurchaseId: purchase.id,
-          BreadId: item.id,
-          quantity: item.quantity,
-        };
-
-        const breadPurchaseCreated = await db.BreadPurchase.create(breadPurchase);
-        return breadPurchaseCreated;
-      });
-
-      return purchase;
-    } catch (error) {
-      console.error(error);
-      throw error;
+      // do add products purchase table record
+      if (dbProducts.length !== products.length) {
+        throw Error('BreadPurchase undefined couse breads does not exist in db');
+      } else {
+        const purchase = await db.Purchase.create(newPurchase);
+        addProductPurchase(products, purchase);
+        return purchase;
+      }
+    } catch (e) {
+      console.error(e);
+      throw e;
     }
   }
 
@@ -93,9 +119,7 @@ class PurchaseService {
 
       if (purchaseToDelete && breadPurchaseToDelete) {
         // removing the breadPurchases in the table association
-        breadPurchaseToDelete.forEach(breadPurchase =>
-          breadPurchase.destroy({ where: { PurchaseId: id } }),
-        );
+        breadPurchaseToDelete.forEach(breadPurchase => breadPurchase.destroy({ where: { PurchaseId: id } }));
 
         // removing the purchase
         const deletedPurchase = await db.Purchase.destroy({ where: { id } });

@@ -32,7 +32,7 @@ class PurchaseController {
       !req.body.products ||
       !req.body.products.length === 0 ||
       !req.body.paymentType ||
-      !req.body.deliveryCost === undefined
+      req.body.deliveryCost === undefined
     ) {
       RR.setError(400, 'Please provide complete purchase details details');
       return RR.send(res);
@@ -53,16 +53,7 @@ class PurchaseController {
     const newPurchase = req.body;
     try {
       const createdPurchase = await PurchaseService.addPurchase(newPurchase);
-      const {
-        clientName,
-        phone,
-        deliveryDate,
-        address,
-        products,
-        amount,
-        paymentType,
-        deliveryCost,
-      } = newPurchase;
+      const { clientName, phone, deliveryDate, address, products, amount, paymentType, deliveryCost } = newPurchase;
       const orderNumber = createdPurchase.id;
 
       const emailParams = {
@@ -79,8 +70,8 @@ class PurchaseController {
       emailSender({ emailParams });
       RR.setSuccess(201, 'Purchase Added!', createdPurchase);
       return RR.send(res);
-    } catch (error) {
-      RR.setError(400, error.message);
+    } catch (e) {
+      RR.setError(400, e.message);
       return RR.send(res);
     }
   }

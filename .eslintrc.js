@@ -48,5 +48,6 @@ module.exports = {
     'no-console': 'off',
     'prefer-template': 'off',
     'no-else-return': 'off',
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
 };
