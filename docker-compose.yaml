@@ -7,15 +7,15 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      NODE_ENV: development
-      PORT: 3000
-      DB_NAME: root
-      DB_PASS: root
-      DB_USER: root
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_NAME: ${DB_NAME}
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
       DB_HOST: postgres
-      DB_PORT: 5432
-      API_VERSION: /api/v1
-      DATABASE_URL: postgres://xputrhgoesdwye:3363291ce4b1c2330fcc171f6eba36fe8d49a1777620cbfa462965797d57d865@ec2-34-235-62-201.compute-1.amazonaws.com:5432/d2kcuqb8991rnm
+      DB_PORT: ${DB_PORT}
+      API_VERSION: ${API_VERSION}
+      DATABASE_URL: ${DATABASE_URL}
     ports:
       - '3000:3000'
     command: bash -c "npx sequelize-cli db:migrate && yarn start:dev"
