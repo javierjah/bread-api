@@ -24,8 +24,6 @@ services:
       DATABASE_URL: postgres://xputrhgoesdwye:3363291ce4b1c2330fcc171f6eba36fe8d49a1777620cbfa462965797d57d865@ec2-34-235-62-201.compute-1.amazonaws.com:5432/d2kcuqb8991rnm
     ports:
       - '3000:3000'
-      - '9229:9229'
-      - '9230:9230'
     command: bash -c "npx sequelize-cli db:migrate && yarn start:dev"
     volumes:
       - .:/app/
