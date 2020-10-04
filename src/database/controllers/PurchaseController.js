@@ -6,6 +6,9 @@ import formatNumber from '../utils/numbers';
 
 const RR = new RestResponses();
 
+const EMAIL_API_URL = process.env.EMAIL_API_URL;
+const API_VERSION = process.env.API_VERSION;
+
 class PurchaseController {
   static async getAllPurchases(req, res) {
     try {
@@ -69,11 +72,7 @@ class PurchaseController {
         products,
       };
 
-      axios.create({ baseURL: 'http://127.0.0.1:3002' });
-
-      const emailSent = await axios.post('/api/v1/email', emailParams, {
-        proxy: { host: '127.0.0.1', port: 3002 },
-      });
+      const emailSent = await axios.post(`${EMAIL_API_URL}${API_VERSION}/email`, emailParams);
 
       const responseData = {
         createdPurchase,
