@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import PurchaseController from '../controllers/PurchaseController';
+import PurchaseController from '../database/controllers/PurchaseController';
 
 const router = Router();
 

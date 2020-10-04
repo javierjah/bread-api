@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import PurchaseService from '../services/PurchaseService';
 import RestResponses from '../utils/RestResponses';
-import emailSender from '../../email-sender/nodeEmailSender';
 import formatNumber from '../utils/numbers';
 
 const RR = new RestResponses();
@@ -59,7 +60,7 @@ class PurchaseController {
       const emailParams = {
         userName: clientName,
         orderNumber,
-        phonNumber: phone,
+        phoneNumber: phone,
         totalAmount: formatNumber(amount),
         paymentType,
         deliveryCost,
@@ -67,11 +68,24 @@ class PurchaseController {
         address,
         products,
       };
-      emailSender({ emailParams });
-      RR.setSuccess(201, 'Purchase Added!', createdPurchase);
+
+      axios.create({ baseURL: 'http://127.0.0.1:3002' });
+
+      const emailSent = await axios.post('/api/v1/email', emailParams, {
+        proxy: { host: '127.0.0.1', port: 3002 },
+      });
+
+      const responseData = {
+        createdPurchase,
+        email: emailSent.data,
+      };
+
+      RR.setSuccess(201, 'Purchase Added!', responseData);
       return RR.send(res);
     } catch (e) {
-      RR.setError(400, e.message);
+      const msj = e.response && e.response.data ? e.response.data.message : e;
+
+      RR.setError(400, msj);
       return RR.send(res);
     }
   }

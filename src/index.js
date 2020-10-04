@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 
 import db from './database/models';
-import routes from './database/routes';
+import routes from './routes';
 
 // env config vars
 const ENV = process.env.NODE_ENV || 'development';
