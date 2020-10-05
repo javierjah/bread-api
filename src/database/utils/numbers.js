@@ -1,5 +1,5 @@
-function formatNumber(value) {
-  const numberFixed = Number(value).toLocaleString().replace(',', '.');
+function formatNumber(number) {
+  const numberFixed = Number(number).toLocaleString().replace(',', '.');
   return numberFixed;
 }
 

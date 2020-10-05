@@ -1,9 +1,13 @@
+import axios from 'axios';
+
 import PurchaseService from '../services/PurchaseService';
 import RestResponses from '../utils/RestResponses';
-import emailSender from '../../email-sender/nodeEmailSender';
 import formatNumber from '../utils/numbers';
 
 const RR = new RestResponses();
+
+const EMAIL_API_URL = process.env.EMAIL_API_URL;
+const API_VERSION = process.env.API_VERSION;
 
 class PurchaseController {
   static async getAllPurchases(req, res) {
@@ -32,7 +36,7 @@ class PurchaseController {
       !req.body.products ||
       !req.body.products.length === 0 ||
       !req.body.paymentType ||
-      !req.body.deliveryCost === undefined
+      req.body.deliveryCost === undefined
     ) {
       RR.setError(400, 'Please provide complete purchase details details');
       return RR.send(res);
@@ -53,22 +57,13 @@ class PurchaseController {
     const newPurchase = req.body;
     try {
       const createdPurchase = await PurchaseService.addPurchase(newPurchase);
-      const {
-        clientName,
-        phone,
-        deliveryDate,
-        address,
-        products,
-        amount,
-        paymentType,
-        deliveryCost,
-      } = newPurchase;
+      const { clientName, phone, deliveryDate, address, products, amount, paymentType, deliveryCost } = newPurchase;
       const orderNumber = createdPurchase.id;
 
       const emailParams = {
         userName: clientName,
         orderNumber,
-        phonNumber: phone,
+        phoneNumber: phone,
         totalAmount: formatNumber(amount),
         paymentType,
         deliveryCost,
@@ -76,11 +71,20 @@ class PurchaseController {
         address,
         products,
       };
-      emailSender({ emailParams });
-      RR.setSuccess(201, 'Purchase Added!', createdPurchase);
+
+      const emailSent = await axios.post(`${EMAIL_API_URL}${API_VERSION}/email`, emailParams);
+
+      const responseData = {
+        createdPurchase,
+        email: emailSent.data,
+      };
+
+      RR.setSuccess(201, 'Purchase Added!', responseData);
       return RR.send(res);
-    } catch (error) {
-      RR.setError(400, error.message);
+    } catch (e) {
+      const msj = e.response && e.response.data ? e.response.data.message : e;
+
+      RR.setError(400, msj);
       return RR.send(res);
     }
   }

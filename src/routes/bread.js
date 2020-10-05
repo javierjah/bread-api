@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import BreadController from '../controllers/BreadController';
+import BreadController from '../database/controllers/BreadController';
 
 const router = Router();
 

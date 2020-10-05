@@ -1,34 +1,37 @@
 {
-  "name": "simple-node-express",
+  "name": "breads-api",
   "version": "1.0.0",
-  "description": "simple express server",
+  "description": "breads api postgres server",
   "main": "src/index.js",
   "author": "javier palacios",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start:dev": "nodemon --exec babel-node src/index.js",
+    "start:dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
+    "start:prod": "yarn run pm2",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s --copy-files",
     "build": "yarn clean && yarn build-babel",
-    "start": "yarn build && node ./build/index.js"
+    "start": "yarn build && node ./build/index.js",
+    "pm2": "pm2 start processes.json --no-daemon",
+    "start:docker": "docker-compose up",
+    "start:docker:build": "docker-compose up --build",
+    "lint": "eslint ./src"
   },
   "engines": {
-    "node": "12.16.1",
-    "yarn": "1.22.4"
+    "node": ">=12.16.1"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
-    "email-templates": "^7.1.1",
     "express": "^4.17.1",
-    "nodemailer": "^6.4.11",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
-    "pug": "^3.0.0",
+    "pm2": "^4.5.0",
     "regenerator-runtime": "^0.13.7",
     "sequelize": "^6.3.5"
   },
