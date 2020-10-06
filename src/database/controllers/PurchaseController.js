@@ -3,10 +3,12 @@ import axios from 'axios';
 import PurchaseService from '../services/PurchaseService';
 import RestResponses from '../utils/RestResponses';
 import formatNumber from '../utils/numbers';
+import createPurchaseMissingParamsMessage from '../utils/strings';
 
 const RR = new RestResponses();
 
 const EMAIL_API_URL = process.env.EMAIL_API_URL;
+const DEV_EMAIL_API_URL = process.env.DEV_EMAIL_API_URL;
 const API_VERSION = process.env.API_VERSION;
 
 class PurchaseController {
@@ -27,8 +29,8 @@ class PurchaseController {
 
   static async addPurchase(req, res) {
     if (
+      !req.body.email ||
       !req.body.amount ||
-      !req.body.description ||
       !req.body.deliveryDate ||
       !req.body.clientName ||
       !req.body.address ||
@@ -38,7 +40,7 @@ class PurchaseController {
       !req.body.paymentType ||
       req.body.deliveryCost === undefined
     ) {
-      RR.setError(400, 'Please provide complete purchase details details');
+      RR.setError(400, createPurchaseMissingParamsMessage(req.body));
       return RR.send(res);
     }
 
@@ -57,10 +59,21 @@ class PurchaseController {
     const newPurchase = req.body;
     try {
       const createdPurchase = await PurchaseService.addPurchase(newPurchase);
-      const { clientName, phone, deliveryDate, address, products, amount, paymentType, deliveryCost } = newPurchase;
+      const {
+        email,
+        clientName,
+        phone,
+        deliveryDate,
+        address,
+        products,
+        amount,
+        paymentType,
+        deliveryCost,
+      } = newPurchase;
       const orderNumber = createdPurchase.id;
 
       const emailParams = {
+        email,
         userName: clientName,
         orderNumber,
         phoneNumber: phone,
@@ -71,8 +84,8 @@ class PurchaseController {
         address,
         products,
       };
-
-      const emailSent = await axios.post(`${EMAIL_API_URL}${API_VERSION}/email`, emailParams);
+      const EMAIL_URL = process.env.NODE_ENV === 'development' ? DEV_EMAIL_API_URL : EMAIL_API_URL;
+      const emailSent = await axios.post(`${EMAIL_URL}${API_VERSION}/email`, emailParams);
 
       const responseData = {
         createdPurchase,
@@ -82,7 +95,8 @@ class PurchaseController {
       RR.setSuccess(201, 'Purchase Added!', responseData);
       return RR.send(res);
     } catch (e) {
-      const msj = e.response && e.response.data ? e.response.data.message : e;
+      console.error(e);
+      const msj = e.response && e.response.data ? e.response.data.message : e.message;
 
       RR.setError(400, msj);
       return RR.send(res);
