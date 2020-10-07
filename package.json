@@ -13,7 +13,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s --copy-files",
     "build": "yarn clean && yarn build-babel",
-    "start": "yarn build && node ./build/index.js",
+    "start": "yarn build && NODE_ENV=production node ./build/index.js",
     "pm2": "pm2 start processes.json --no-daemon",
     "start:docker": "docker-compose up",
     "start:docker:build": "docker-compose up --build",
