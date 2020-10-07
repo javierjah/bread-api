@@ -85,8 +85,8 @@ class PurchaseController {
         products,
       };
       const EMAIL_URL = process.env.NODE_ENV === 'development' ? DEV_EMAIL_API_URL : EMAIL_API_URL;
-      const emailSent = await axios.post(`${EMAIL_URL}${API_VERSION}/email`, emailParams);
 
+      const emailSent = await axios.post(`${EMAIL_URL}${API_VERSION}/email`, emailParams);
       const responseData = {
         createdPurchase,
         email: emailSent.data,
@@ -95,9 +95,8 @@ class PurchaseController {
       RR.setSuccess(201, 'Purchase Added!', responseData);
       return RR.send(res);
     } catch (e) {
-      console.error(e);
-      const msj = e.response && e.response.data ? e.response.data.message : e.message;
-
+      const msj = e.response && e.response.data && e.response.data.message ? e.response.data.message : e.message;
+      console.error('msj', msj);
       RR.setError(400, msj);
       return RR.send(res);
     }
