@@ -13,7 +13,7 @@ module.exports = {
         allowNull: true,
       },
       amount: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       deliveryDate: {
@@ -30,6 +30,14 @@ module.exports = {
       },
       phone: {
         type: Sequelize.STRING,
+        allowNull: true,
+      },
+      paymentType: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      deliveryCost: {
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       createdAt: {

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
@@ -25,7 +27,7 @@ if (env === 'production') {
   });
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: process.env.DATABASE_URL,
+    host: config.host,
     port: process.env.DB_PORT,
     dialect: 'postgres',
     dialectOptions: {},

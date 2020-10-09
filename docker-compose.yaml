@@ -1,0 +1,38 @@
+# docker-compose.yml
+version: '3'
+services:
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_NAME: ${DB_NAME}
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
+      API_VERSION: ${API_VERSION}
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - '3000:3000'
+    command: bash -c "npx sequelize-cli db:migrate && yarn start:dev"
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  postgres:
+    image: postgres:10.4
+    ports:
+      - '35432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: root
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
