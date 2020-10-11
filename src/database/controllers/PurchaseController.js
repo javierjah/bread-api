@@ -1,4 +1,5 @@
 import axios from 'axios';
+import nanoid from 'nanoid';
 
 import PurchaseService from '../services/PurchaseService';
 import RestResponses from '../utils/RestResponses';
@@ -57,6 +58,9 @@ class PurchaseController {
     }
 
     const newPurchase = req.body;
+    // create purcharse order number
+    newPurchase.orderNumber = nanoid(6);
+
     try {
       const createdPurchase = await PurchaseService.addPurchase(newPurchase);
       const {
@@ -69,8 +73,8 @@ class PurchaseController {
         amount,
         paymentType,
         deliveryCost,
+        orderNumber,
       } = newPurchase;
-      const orderNumber = createdPurchase.id;
 
       const emailParams = {
         email,

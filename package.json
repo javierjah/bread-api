@@ -17,7 +17,8 @@
     "pm2": "pm2 start processes.json --no-daemon",
     "start:docker": "docker-compose up",
     "start:docker:build": "docker-compose up --build",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "start:seeds": "npx sequelize-cli db:seed:all"
   },
   "engines": {
     "node": ">=12.16.1"
@@ -29,6 +30,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "nanoid": "^2.0.0",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "pm2": "^4.5.0",
