@@ -23,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://dev-breads-api.herokuapp.com');
+  res.header('Access-Control-Allow-Origin', 'dev-breads-api.herokuapp.com');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
@@ -38,7 +38,7 @@ app.get('/healthz', (req, res) => {
   // do app logic here to determine if app is truly healthy
   // you should return 200 if healthy, and anything else will fail
   // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
-  return res.status(200).send('I am happy and healthy\n');
+  return res.status(200).send('I am happy and healthyy\n');
 });
 
 // testing database connection
