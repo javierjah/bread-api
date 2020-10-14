@@ -14,7 +14,7 @@
       "url": "https://github.com/javierjah/bread-api"
     }
   },
-  "host": "https://breads-api.herokuapp.com",
+  "host": "breads-api.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
