@@ -9,12 +9,11 @@
       "url": "https://opensource.org/licenses/MIT"
     },
     "contact": {
-      "name": "Breads  service api",
+      "name": "Breads service api",
       "email": "javier.palacios.h@gmail.com",
       "url": "https://github.com/javierjah/bread-api"
     }
   },
-  "host": "breads-api.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
