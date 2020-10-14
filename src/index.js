@@ -2,6 +2,8 @@ import 'dotenv/config';
 import 'regenerator-runtime/runtime';
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 
 import db from './database/models';
 import routes from './routes';
@@ -24,6 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 // app routes setup
 app.use(`${API_VERSION}/breads`, routes.bread);
 app.use(`${API_VERSION}/purchases`, routes.purchase);
+
+// swagger route config
+app.use(`${API_VERSION}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/healthz', (req, res) => {
   // do app logic here to determine if app is truly healthy

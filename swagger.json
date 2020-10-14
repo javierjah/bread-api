@@ -1,0 +1,515 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.8.0",
+    "title": "Breads API service",
+    "description": "Breads API Service",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Breads  service api",
+      "email": "javier.palacios.h@gmail.com",
+      "url": "https://github.com/javierjah/bread-api"
+    }
+  },
+  "host": "breads-api.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Breads",
+      "description": "Paths for breads"
+    },
+    {
+      "name": "Purchases",
+      "description": "paths for purchases"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/breads": {
+      "get": {
+        "tags": ["Breads"],
+        "summary": "Get all breads in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Breads retrieved"
+                },
+                "breads": {
+                  "$ref": "#/definitions/Breads"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Breads"],
+        "summary": "Create new bread in system",
+        "description": "Create new bread in system",
+        "parameters": [
+          {
+            "name": "bread",
+            "in": "body",
+            "description": "Bread that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Bread"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Breads retrieved"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bread"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/breads/{id}": {
+      "get": {
+        "tags": ["Breads"],
+        "summary": "Get bread by ID ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Bread Id that we want to update"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Bread by id retrieved"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bread"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Breads"],
+        "summary": "Update a bread in system",
+        "description": "Update a bread in system by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Bread Id that we want to update"
+          },
+          {
+            "name": "bread",
+            "in": "body",
+            "description": "Bread data we want to update",
+            "type": "string",
+            "schema": {
+              "$ref": "#/definitions/updateBread"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Bread updated"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bread"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Breads"],
+        "summary": "Delete a bread in system",
+        "description": "Delete a bread in system by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Bread Id that we want to delete"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Bread deleted"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/purchases": {
+      "get": {
+        "tags": ["Purchases"],
+        "summary": "Get all purchases in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Purchases retrieved"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref": "#/definitions/Purchase",
+                  "properties": {
+                    "Breads": {
+                      "type": "arrar",
+                      "$ref": "#/definitions/Bread"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Purchases"],
+        "summary": "Create new purchase in system",
+        "description": "Create new purchase in system",
+        "parameters": [
+          {
+            "name": "purchase",
+            "in": "body",
+            "description": "Purchase that we want to create",
+            "schema": {
+              "$ref": "#/definitions/createPurchase"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Purchase created"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "createdPurchase": {
+                      "$ref": "#/definitions/Purchase"
+                    },
+                    "email": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "description": "success"
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Email created!"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "recipients": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "info": {
+                              "type": "string",
+                              "description": "250 2.0.0 OK  1602443044 j24sm9030038edq.29 - gsmtp"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/purchases/{id}": {
+      "delete": {
+        "tags": ["Purchases"],
+        "summary": "Delete a purchase in system",
+        "description": "Delete a purchase in system by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Purchase Id that we want to delete"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Purchases deleted"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Bread": {
+      "required": ["title", "price", "image", "type"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "pattern": "uuid",
+          "uniqueItems": true
+        },
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "Purchase": {
+      "required": [
+        "description",
+        "amount",
+        "deliveryDate",
+        "clientName",
+        "address",
+        "phone",
+        "paymentType",
+        "deliveryCost",
+        "orderNumber"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "pattern": "uuid",
+          "uniqueItems": true
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "deliveryDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "clientName": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "string"
+        },
+        "deliveryCost": {
+          "type": "integer"
+        },
+        "orderNumber": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "updateBread": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "createPurchase": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "deliveryCost": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "deliveryDate": {
+          "type": "string"
+        },
+        "clientName": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/breadPurchase"
+          }
+        }
+      }
+    },
+    "breadPurchase": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalAmount": {
+          "type": "integer"
+        }
+      }
+    },
+    "Breads": {
+      "type": "array",
+      "$ref": "#/definitions/Bread"
+    },
+    "Purchases": {
+      "type": "array",
+      "$ref": "#/definitions/Purchase"
+    }
+  }
+}
