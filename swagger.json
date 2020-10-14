@@ -3,13 +3,13 @@
   "info": {
     "version": "0.8.0",
     "title": "Breads API service",
-    "description": "Breads API Service",
+    "description": "Breads API Service connected to the emails service https://github.com/javierjah/email-sender",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
     },
     "contact": {
-      "name": "Breads service api",
+      "name": "Javier Palacios",
       "email": "javier.palacios.h@gmail.com",
       "url": "https://github.com/javierjah/bread-api"
     }
